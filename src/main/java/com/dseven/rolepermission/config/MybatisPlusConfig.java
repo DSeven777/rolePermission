@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
  * MyBatis-Plus 配置类
  */
 @Configuration
-@MapperScan("com.dseven.rolepermission.mapper")
+@MapperScan({"com.dseven.rolepermission.mapper", "com.dseven.rolepermission.biz.mail.mapper"})
 public class MybatisPlusConfig {
 
 
