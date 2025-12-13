@@ -32,7 +32,7 @@ public class MailSenderManager {
             javaMailSender.send(message);
             log.info("邮件发送成功: email={}", email);
         } catch (Exception e) {
-            log.error("邮件发送失败: {} -> {}", email, e.getMessage());
+            log.error("邮件发送失败: {} -> {}", email, e.getMessage(), e);
             // 可以在这里做简单的重试或记录失败日志表供定时任务重发
         }
     }
