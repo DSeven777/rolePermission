@@ -1,0 +1,68 @@
+spring:
+  application:
+    name: role-permission
+
+  # 数据库配置
+  datasource:
+    url: "jdbc:mysql://你的数据库地址:3306/数据库名?useSSL=true&requireSSL=true&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&verifyServerCertificate=false"
+    username: 数据库用户名
+    password: 数据库密码
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  # JPA 配置
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+
+# 服务器配置
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+# 日志配置
+logging:
+  level:
+    root: INFO
+    com.dseven: DEBUG
+    org.springframework.web: DEBUG
+    org.springframework.security: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+# 开发环境特定配置
+debug: true
+
+# 文件上传配置
+spring.servlet.multipart:
+  max-file-size: 10MB
+  max-request-size: 100MB
+
+# 其他开发环境配置
+---
+# 自定义配置
+app:
+  # 应用配置
+  name: Role Permission System
+  version: 1.0.0
+
+  # 安全配置
+  jwt:
+    secret: mySecretKey123456789012345678901234567890
+    expiration: 86400000  # 24小时
+
+  # 跨域配置
+  cors:
+    allowed-origins: "http://localhost:3000,http://localhost:8080"
+    allowed-methods: "GET,POST,PUT,DELETE,OPTIONS"
+    allowed-headers: "*"
+    allow-credentials: true
+    max-age: 3600
