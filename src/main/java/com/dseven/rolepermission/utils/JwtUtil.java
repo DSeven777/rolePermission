@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 /**
- * JWT 工具类
+ * JWT 工具类1
  */
 @Slf4j
 @Component
