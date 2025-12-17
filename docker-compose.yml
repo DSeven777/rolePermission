@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  nacos:
+    image: nacos/nacos-server:v2.3.0
+    container_name: nacos-standalone
+    environment:
+      - PREFER_HOST_MODE=hostname
+      - MODE=standalone
+      - SPRING_DATASOURCE_PLATFORM=empty
+    ports:
+      - "8848:8848"
+      - "9848:9848"
+    restart: always
+
+  redis:
+    image: redis:latest
+    container_name: redis-standalone
+    ports:
+      - "6379:6379"
+    restart: always
+
+  # mysql: # 如果你本地没有MySQL，可以取消注释使用Docker中的MySQL
+  #   image: mysql:8.0
+  #   container_name: mysql-standalone
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: password
+  #     MYSQL_DATABASE: rolePermission
+  #   ports:
+  #     - "3306:3306"
+  #   volumes:
+  #     - ./sql:/docker-entrypoint-initdb.d
+  #   restart: always
