@@ -12,8 +12,8 @@ import java.util.List;
 public interface SysUserService extends IService<SysUser> {
 
     /**
-     * 根据用户名查询用�?
-     * @param username 用户�?
+     * 根据用户名查询用户
+     * @param username 用户名
      * @return 用户信息
      */
     SysUser getByUsername(String username);
@@ -21,8 +21,8 @@ public interface SysUserService extends IService<SysUser> {
     /**
      * 分页查询用户列表
      * @param page 分页参数
-     * @param username 用户名（模糊查询�?
-     * @param status 状�?
+     * @param username 用户名（模糊查询）
+     * @param status 状态
      * @param deptId 部门ID
      * @return 用户分页列表
      */
@@ -57,9 +57,9 @@ public interface SysUserService extends IService<SysUser> {
     boolean deleteUsers(List<Long> userIds);
 
     /**
-     * 更新用户状�?
+     * 更新用户状态
      * @param userId 用户ID
-     * @param status 状�?
+     * @param status 状态
      * @return 是否成功
      */
     boolean updateUserStatus(Long userId, Integer status);
@@ -67,7 +67,7 @@ public interface SysUserService extends IService<SysUser> {
     /**
      * 重置用户密码
      * @param userId 用户ID
-     * @param password 新密�?
+     * @param password 新密码
      * @return 是否成功
      */
     boolean resetPassword(Long userId, String password);
@@ -87,4 +87,3 @@ public interface SysUserService extends IService<SysUser> {
      */
     List<Long> getUserRoleIds(Long userId);
 }
-

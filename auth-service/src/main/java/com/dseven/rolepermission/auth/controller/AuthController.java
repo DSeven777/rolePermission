@@ -1,46 +1,45 @@
 package com.dseven.rolepermission.auth.controller;
 
-import com.dseven.rolepermission.common.result.Result;
+import com.dseven.rolepermission.auth.dto.LoginRequest;
+import com.dseven.rolepermission.auth.dto.LoginResponse;
+import com.dseven.rolepermission.auth.dto.RegisterRequest;
+import com.dseven.rolepermission.auth.service.AuthService;
 import com.dseven.rolepermission.common.entity.SysUser;
-import com.dseven.rolepermission.sso.dto.LoginRequest;
-import com.dseven.rolepermission.sso.dto.LoginResponse;
-import com.dseven.rolepermission.sso.dto.RegisterRequest;
-import com.dseven.rolepermission.service.AuthService;
-import com.dseven.rolepermission.service.SysUserService;
+import com.dseven.rolepermission.common.feign.RemoteUserService;
+import com.dseven.rolepermission.common.result.Result;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 认证控制�?- 处理登录、注册、登出等认证相关操作
+ * 认证控制器 - 处理登录、注册、登出等认证相关操作
  */
 @Slf4j
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
 @Validated
-@Tag(name = "认证管理", description = "登录、注册、令牌管�?)
+@Tag(name = "认证管理", description = "登录、注册、令牌管理")
 public class AuthController {
 
     private final AuthService authService;
-    private final SysUserService userService;
+    private final RemoteUserService userService;
 
     @Value("${app.jwt.expiration}")
     private Long jwtExpiration;
 
     @PostMapping("/login")
-    @Operation(summary = "用户登录", description = "用户名密码登�?)
+    @Operation(summary = "用户登录", description = "用户名密码登录")
     public Result<LoginResponse> login(
             @Valid @RequestBody LoginRequest loginRequest,
             HttpServletRequest request) {
@@ -57,7 +56,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    @Operation(summary = "用户注册", description = "新用户注�?)
+    @Operation(summary = "用户注册", description = "新用户注册")
     public Result<String> register(
             @Valid @RequestBody RegisterRequest registerRequest,
             HttpServletRequest request) {
@@ -74,7 +73,7 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    @Operation(summary = "用户登出", description = "用户退出登�?)
+    @Operation(summary = "用户登出", description = "用户退出登录")
     public Result<String> logout(
             @RequestHeader(value = "Authorization", required = false) String authorization,
             @Parameter(description = "刷新令牌") @RequestParam(required = false) String refreshToken) {
@@ -85,7 +84,7 @@ public class AuthController {
             authService.logout(token, refreshToken);
         }
 
-        return Result.success("退出成�?);
+        return Result.success("退出成功");
     }
 
     @PostMapping("/refresh")
@@ -101,7 +100,7 @@ public class AuthController {
     }
 
     @GetMapping("/captcha")
-    @Operation(summary = "获取验证�?, description = "获取登录验证�?)
+    @Operation(summary = "获取验证码", description = "获取登录验证码")
     public Result<Map<String, String>> getCaptcha() {
         Map<String, String> captchaMap = authService.generateCaptcha();
         return Result.success(captchaMap);
@@ -114,15 +113,15 @@ public class AuthController {
             @RequestParam @NotBlank(message = "邮箱不能为空") String email) {
 
         authService.sendEmailCode(email);
-        return Result.success("验证码已发�?);
+        return Result.success("验证码已发送");
     }
 
     @PostMapping("/reset-password")
     @Operation(summary = "重置密码", description = "通过邮箱重置密码")
     public Result<String> resetPassword(
             @Parameter(description = "邮箱", required = true) @RequestParam String email,
-            @Parameter(description = "验证�?, required = true) @RequestParam String code,
-            @Parameter(description = "新密�?, required = true) @RequestParam String newPassword) {
+            @Parameter(description = "验证码", required = true) @RequestParam String code,
+            @Parameter(description = "新密码", required = true) @RequestParam String newPassword) {
 
         authService.resetPassword(email, code, newPassword);
         return Result.success("密码重置成功");
@@ -131,23 +130,23 @@ public class AuthController {
     @GetMapping("/check-username")
     @Operation(summary = "检查用户名", description = "检查用户名是否可用")
     public Result<Boolean> checkUsername(
-            @Parameter(description = "用户�?, required = true)
-            @RequestParam @NotBlank(message = "用户名不能为�?) String username) {
+            @Parameter(description = "用户名", required = true)
+            @RequestParam @NotBlank(message = "用户名不能为空") String username) {
 
-        boolean exists = userService.getByUsername(username) != null;
-        return Result.success("检查完�?, !exists);
+        Result<SysUser> result = userService.getByUsername(username);
+        boolean exists = result.getData() != null;
+        return Result.success("检查完成", !exists);
     }
 
     @GetMapping("/check-email")
-    @Operation(summary = "检查邮�?, description = "检查邮箱是否已注册")
+    @Operation(summary = "检查邮箱", description = "检查邮箱是否已注册")
     public Result<Boolean> checkEmail(
             @Parameter(description = "邮箱地址", required = true)
             @RequestParam @NotBlank(message = "邮箱不能为空") String email) {
 
-        boolean exists = userService.lambdaQuery()
-                .eq(SysUser::getEmail, email)
-                .exists();
-        return Result.success("检查完�?, !exists);
+        Result<Boolean> result = userService.existsByEmail(email);
+        boolean exists = Boolean.TRUE.equals(result.getData());
+        return Result.success("检查完成", !exists);
     }
 
     @GetMapping("/user-info")
@@ -178,4 +177,3 @@ public class AuthController {
         return request.getRemoteAddr();
     }
 }
-

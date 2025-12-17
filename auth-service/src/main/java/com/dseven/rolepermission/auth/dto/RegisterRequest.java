@@ -14,13 +14,13 @@ import jakarta.validation.constraints.Size;
 @Schema(description = "注册请求")
 public class RegisterRequest {
 
-    @NotBlank(message = "用户名不能为�?)
-    @Size(min = 3, max = 20, message = "用户名长度必须在3-20个字符之�?)
-    @Schema(description = "用户�?, example = "testuser")
+    @NotBlank(message = "用户名不能为空")
+    @Size(min = 3, max = 20, message = "用户名长度必须在3-20个字符之间")
+    @Schema(description = "用户名", example = "testuser")
     private String username;
 
     @NotBlank(message = "密码不能为空")
-    @Size(min = 6, max = 20, message = "密码长度必须�?-20个字符之�?)
+    @Size(min = 6, max = 20, message = "密码长度必须在6-20个字符之间")
     @Schema(description = "密码", example = "123456")
     private String password;
 
@@ -29,26 +29,25 @@ public class RegisterRequest {
     private String confirmPassword;
 
     @NotBlank(message = "昵称不能为空")
-    @Size(max = 50, message = "昵称长度不能超过50个字�?)
+    @Size(max = 50, message = "昵称长度不能超过50个字符")
     @Schema(description = "昵称", example = "测试用户")
     private String nickname;
 
     @NotBlank(message = "邮箱不能为空")
-    @Email(message = "邮箱格式不正�?)
+    @Email(message = "邮箱格式不正确")
     @Schema(description = "邮箱", example = "test@example.com")
     private String email;
 
-    @Schema(description = "手机�?, example = "13800138000")
+    @Schema(description = "手机号", example = "13800138000")
     private String phone;
 
     @Schema(description = "部门ID", example = "1")
     private Long deptId;
 
-    @NotBlank(message = "验证码不能为�?)
-    @Schema(description = "邮箱验证�?, example = "123456")
+    @NotBlank(message = "验证码不能为空")
+    @Schema(description = "邮箱验证码", example = "123456")
     private String emailCode;
 
     @Schema(description = "邀请码", example = "INVITE123")
     private String inviteCode;
 }
-

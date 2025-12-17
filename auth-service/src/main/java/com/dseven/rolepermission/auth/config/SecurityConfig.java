@@ -1,4 +1,4 @@
-package com.dseven.rolepermission.config;
+package com.dseven.rolepermission.auth.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,14 +16,14 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 
 /**
- * Spring Security 配置�?
+ * Spring Security 配置类
  */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
     /**
-     * 密码编码�?
+     * 密码编码器
      */
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -42,12 +42,12 @@ public class SecurityConfig {
                 // 配置 CORS
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
 
-                // 配置会话管理为无状�?
+                // 配置会话管理为无状态
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
 
                 // 配置请求授权
                 .authorizeHttpRequests(auth -> auth
-                        // 允许访问的端�?
+                        // 允许访问的端点
                         .requestMatchers(
                                 "/",
                                 "/error",
@@ -62,14 +62,14 @@ public class SecurityConfig {
                                 "/doc.html"
                         ).permitAll()
 
-                        // API 路径需要认�?
+                        // API 路径需要认证
                         .requestMatchers("/api/**").authenticated()
 
                         // 其他所有请求都允许访问（开发环境）
                         .anyRequest().permitAll()
                 )
 
-                // 禁用 frame options 以支�?Swagger UI
+                // 禁用 frame options 以支持 Swagger UI
                 .headers(headers -> headers.frameOptions().disable());
 
         return http.build();
@@ -85,16 +85,16 @@ public class SecurityConfig {
         // 允许的源
         configuration.setAllowedOriginPatterns(Arrays.asList("*"));
 
-        // 允许的请求方�?
+        // 允许的请求方法
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 
         // 允许的请求头
         configuration.setAllowedHeaders(Arrays.asList("*"));
 
-        // 是否允许发送凭�?
+        // 是否允许发送凭证
         configuration.setAllowCredentials(true);
 
-        // 预检请求的缓存时�?
+        // 预检请求的缓存时间
         configuration.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -103,4 +103,3 @@ public class SecurityConfig {
         return source;
     }
 }
-

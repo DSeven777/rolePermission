@@ -1,8 +1,8 @@
 package com.dseven.rolepermission.auth.service;
 
-import com.dseven.rolepermission.sso.dto.LoginRequest;
-import com.dseven.rolepermission.sso.dto.LoginResponse;
-import com.dseven.rolepermission.sso.dto.RegisterRequest;
+import com.dseven.rolepermission.auth.dto.LoginRequest;
+import com.dseven.rolepermission.auth.dto.LoginResponse;
+import com.dseven.rolepermission.auth.dto.RegisterRequest;
 
 import java.util.Map;
 
@@ -41,8 +41,8 @@ public interface AuthService {
     Map<String, String> refreshToken(String refreshToken);
 
     /**
-     * 生成验证�?
-     * @return 验证码信�?
+     * 生成验证码
+     * @return 验证码信息
      */
     Map<String, String> generateCaptcha();
 
@@ -55,8 +55,8 @@ public interface AuthService {
     /**
      * 重置密码
      * @param email 邮箱
-     * @param code 验证�?
-     * @param newPassword 新密�?
+     * @param code 验证码
+     * @param newPassword 新密码
      */
     void resetPassword(String email, String code, String newPassword);
 
@@ -67,4 +67,3 @@ public interface AuthService {
      */
     LoginResponse.UserInfo getUserInfo(String token);
 }
-

@@ -16,7 +16,7 @@ public class EmailLog {
     private String bizType;
     
     /**
-     * 验证码指�?HMAC-SHA256)
+     * 验证码指纹 (HMAC-SHA256)
      */
     private String codeHash;
     
@@ -25,5 +25,3 @@ public class EmailLog {
     private String errorMsg;
     private LocalDateTime createTime;
 }
-
-

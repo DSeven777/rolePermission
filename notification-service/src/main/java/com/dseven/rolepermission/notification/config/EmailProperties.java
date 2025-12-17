@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class EmailProperties {
 
     /**
-     * 验证码过期时间（分钟�?
+     * 验证码过期时间（分钟）
      */
     private int codeExpireMinutes = 10;
 
@@ -20,22 +20,22 @@ public class EmailProperties {
     private int sendIntervalSeconds = 60;
 
     /**
-     * 每小时最大发送次数（IP�?
+     * 每小时最大发送次数（IP）
      */
     private int maxSendPerHourPerIp = 10;
 
     /**
-     * 每天最大发送次数（邮箱�?
+     * 每天最大发送次数（邮箱）
      */
     private int maxSendPerDayPerEmail = 5;
 
     /**
-     * 验证码最大尝试次�?
+     * 验证码最大尝试次数
      */
     private int maxTryCount = 3;
 
     /**
-     * 发件人名�?
+     * 发件人名称
      */
     private String fromName = "Role Permission System";
 
@@ -49,5 +49,3 @@ public class EmailProperties {
      */
     private String secretSalt = "sys_secret_salt_default";
 }
-
-

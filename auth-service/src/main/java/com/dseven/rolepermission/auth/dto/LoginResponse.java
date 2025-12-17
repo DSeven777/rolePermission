@@ -22,7 +22,7 @@ public class LoginResponse {
     @Schema(description = "令牌类型", example = "Bearer")
     private String tokenType = "Bearer";
 
-    @Schema(description = "过期时间（秒�?)
+    @Schema(description = "过期时间（秒）")
     private Long expiresIn;
 
     @Schema(description = "用户信息")
@@ -34,7 +34,7 @@ public class LoginResponse {
         @Schema(description = "用户ID")
         private Long id;
 
-        @Schema(description = "用户�?)
+        @Schema(description = "用户名")
         private String username;
 
         @Schema(description = "昵称")
@@ -58,11 +58,10 @@ public class LoginResponse {
         @Schema(description = "权限列表")
         private List<String> permissions;
 
-        @Schema(description = "最后登录时�?)
+        @Schema(description = "最后登录时间")
         private LocalDateTime lastLoginTime;
 
         @Schema(description = "最后登录IP")
         private String lastLoginIp;
     }
 }
-
