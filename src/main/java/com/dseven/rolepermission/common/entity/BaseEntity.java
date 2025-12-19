@@ -5,7 +5,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 /**
- * 基础实体类
+ * 基础实体类 222
  */
 @Data
 public class BaseEntity {
